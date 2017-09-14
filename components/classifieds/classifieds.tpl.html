@@ -1,0 +1,265 @@
+<div class="container">
+<nav class="navbar navbar-fixed-top"  id="myPage"  >
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#" style="margin-right: 40px">Home</a></li>
+
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> Personal <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Banking</a></li>
+          <li><a href="#">Loans</a></li>
+          <li><a href="#">Insurance</a></li>
+          <li><a href="#">Investing and Retirement</a></li>
+          <li><a href="#">Wealth Management</a></li>
+          <li><a href="#">Rewards and Benefits</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Small Business<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Banking</a></li>
+          <li><a href="#">Loans and Credit</a></li>
+          <li><a href="#">Merchant Services</a></li>
+          <li><a href="#">Insurance</a></li>
+          <li><a href="#">Payroll</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Commercial <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Product</a></li>
+          <li><a href="#">Industry Expertise</a></li>
+          <li><a href="#">Insight</a></li>
+        </ul>
+      </li>
+
+
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="#" style="margin-right: 40px"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+
+  </div>
+</nav>
+</div>
+<hr>
+
+<div class="container">
+<md-toolbar md-scroll-shrink>
+  <div class="md-toolbar-tools"> 
+    <!--<p style="text-align: center" ><strong>Explore this page</strong></p>-->
+    <!-- <img  id="icon" style="position: relative; left: 20px; margin-right: 300px;"
+          src="https://www01.wellsfargomedia.com/assets/images/global/wf-logo.gif"> -->
+    <md-button ng-click="vm.openSidebar()" >
+      <!--<md-icon class="mdi mdi-plus-circle"></md-icon>-->
+      Add new Item
+    </md-button>
+
+    <md-button ng-click="vm.showFilters = !vm.showFilters">
+      <md-icon class="mdi mdi-magnify"></md-icon>
+      Filters
+    </md-button>
+
+  </div>
+</md-toolbar>
+
+<div class="filters" layout="row" layout-align="center center" ng-show="vm.showFilters">
+  <!--  We're working locally with our models here. They don't interact
+  with our controller because we don't prefix them with vm -->
+  <md-input-container>
+    <label>Enter a Search Term</label>
+    <input ng-model="classifiedsFilter" type="text">
+  </md-input-container>
+
+  <md-input-container>
+    <label>Category</label>
+    <md-select ng-model="category">
+      <md-option ng-repeat="category in vm.categories" value="{{ category }}">  
+        {{ category }}
+      </md-option>
+    </md-select>
+  </md-input-container>
+  
+  <div layout="row">
+    <md-button ng-click="classifiedsFilter = '';category='';" class="md-warn">
+      Clear
+    </md-button>
+  </div>
+
+</div>
+
+<ui-view></ui-view>
+
+<md-content class="md-padding" layout="row" layout-wrap>
+  <md-card
+    ng-repeat="classified in vm.classifieds | 
+               filter: classifiedsFilter |
+               filter: category"
+               flex="30"
+               class="classified">
+    <img ng-src="{{ classified.image }}" class="md-avatar">
+    <md-card-content>
+      <div class="classified-info" ng-show="!showContact">
+        <h2 class="md-title">{{ classified.title }}</h2>
+        <!--<h3>{{ classified.price | currency }}</h3>-->
+        <p>{{ classified.description }}</p>
+      </div>
+
+      <div class="classified-contact" ng-if="showContact">
+        <p><md-icon class="mdi mdi-account"></md-icon> {{ classified.contact.name }}</p>
+        <p><md-icon class="mdi mdi-phone"></md-icon> {{ classified.contact.phone }}</p>
+        <p><md-icon class="mdi mdi-email"></md-icon> {{ classified.contact.email }}</p>
+      </div>
+
+      <div layout="row">
+        <md-button 
+          ng-click="showContact = true"
+          ng-show="!showContact">
+          Contact
+        </md-button>
+
+        <md-button 
+          ng-click="showContact = false"
+          ng-show="showContact">
+          Details
+        </md-button>
+
+        <md-button 
+          ng-click="showAdmin = true"
+          ng-show="!showAdmin">
+          Admin
+        </md-button>
+
+        <md-button 
+          ng-click="showAdmin = false"
+          ng-show="showAdmin">
+          Close
+        </md-button>
+      </div>
+
+      <div class="classified-admin" ng-if="showAdmin">
+        <h3>Admin</h3>
+        <div layout="row">
+          <md-button 
+            class="md-primary"
+            ng-click="vm.editClassified(classified)">
+            Edit
+          </md-button>
+          <md-button 
+            class="md-warn"
+            ng-click="vm.deleteClassified($event, classified)">
+            Delete
+          </md-button>
+        </div>
+      </div>
+
+    </md-card-content>
+  </md-card>
+</md-content>
+</div>
+<hr>
+
+
+<!--<div id="contact" class="container-fluid bg-grey" >-->
+    <!--<h2 class="text-center">CONTACT</h2>-->
+    <!--<div class="row">-->
+      <!--<div class="col-sm-5">-->
+        <!--<p>Contact us and we'll get back to you within 24 hours.</p>-->
+        <!--<p><span class="glyphicon glyphicon-map-marker"></span>  36 Middlesex Ave, Metuchen, NJ 08840</p>-->
+        <!--<p><span class="glyphicon glyphicon-phone"></span>  1(234)-567-8911</p>-->
+        <!--<p><span class="glyphicon glyphicon-envelope"></span>  thankyou@wellsfargo.com</p>-->
+      <!--</div>-->
+
+      <!--<div class="col-sm-7 slideanim">-->
+        <!--<div class="row">-->
+          <!--<div class="col-sm-6 form-group">-->
+            <!--<input class="form-control" id="name" name="name" placeholder="Name" type="text" required>-->
+            <!--<span style="color:red" ng-show="myForm.user.$dirty && myForm.user.$invalid">-->
+            <!--<span ng-show="myForm.user.$error.required">Username is required.</span>-->
+            <!--</span>-->
+          <!--</div>-->
+
+          <!--<div class="col-sm-6 form-group">-->
+            <!--<input class="form-control" id="email" name="email" placeholder="Email" required>-->
+               <!--<span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">-->
+               <!--<span class="error" ng-show="myForm.input.$error.required">Required!</span>-->
+               <!--<span class="error" ng-show="myForm.input.$error.email">Not valid email!</span>-->
+               <!--</span>-->
+            <!--</div>-->
+          <!--</div>-->
+      <!--</div>-->
+
+        <!--<textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5" required></textarea><br>-->
+
+        <!--<div class="row">-->
+          <!--<div class="col-sm-12 form-group">-->
+            <!--<button class="btn btn-default pull-right" type="submit"-->
+                    <!--ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||  myForm.email.$dirty && myForm.email.$invalid">-->
+              <!--Send</button>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+<!--</div>-->
+<div  class="container-fluid bg-grey" style="margin-top: 70px">
+  <h2 class="text-center">Contact us</h2>
+  <div class="col-sm-5" style="margin-left: 50px">
+  <p>Contact us and we'll get back to you within 24 hours.</p>
+  <p><span class="glyphicon glyphicon-map-marker"></span>  36 Middlesex Ave, Metuchen, NJ 08840</p>
+  <p><span class="glyphicon glyphicon-phone"></span>  1(234)-567-8911</p>
+  <p><span class="glyphicon glyphicon-envelope"></span>  thankyou@wellsfargo.com</p>
+  </div>
+  <form name="myForm"  novalidat style="margin-top: 40px; margin-left: 40px;">
+
+  <input type="text" name="user"  placeholder="name" required>
+  <span style="color:red" ng-show="myForm.user.$dirty && myForm.user.$invalid">
+<span ng-show="myForm.user.$error.required">Username is required.</span>
+</span>
+
+
+  <input type="email" name="email"  placeholder="email" required>
+  <span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+<span ng-show="myForm.email.$error.required">Email is required.</span>
+<span ng-show="myForm.email.$error.email">Invalid email address.</span>
+</span>
+
+
+  <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5" required></textarea><br>
+    <input type="submit"
+           ng-disabled="myForm.user.$dirty && myForm.user.$invalid || myForm.email.$dirty && myForm.email.$invalid">
+
+</form>
+</div>
+
+<footer class="container" >
+  <div id="googleMap" style="height:400px;width:100%; margin-top: 50px;"></div>
+  <script>
+      function myMap() {
+          var myCenter = new google.maps.LatLng(40.5718918, -74.3379959);
+          var mapProp = {center:myCenter, zoom:12, scrollwheel:false, draggable:false, mapTypeId:google.maps.MapTypeId.ROADMAP};
+          var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+          var marker = new google.maps.Marker({position:myCenter});
+          marker.setMap(map);
+      }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCP9zMmM1H3E2R3yX5tEZqi9KUgOsMFQcE&callback=myMap"></script>
+
+
+  <div class="container-fluid text-center" style="font-size: 20px;
+      margin-bottom: 20px;
+      color: #f4511e;">
+    <a href="#myPage" title="To Top">
+      <span class="glyphicon glyphicon-chevron-up" style="margin-top: 40px"></span>
+      <h5>TOP</h5>
+    </a>
+    <p>Welcome</p>
+  </div>
+</footer>
+
+
+
+
+
+
+

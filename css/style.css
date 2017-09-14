@@ -1,0 +1,78 @@
+md-card img {
+  width: 100%;
+  height: auto;
+  min-height: 0px;
+}
+
+button .material-icons {
+  margin-top: 7px;
+}
+
+.filters md-input-container {
+  margin-right: 10px;
+}
+
+.classified.ng-enter, .classified.ng-move {
+  transition: 0.4s all;
+  opacity: 0;
+}
+
+.classified.ng-enter.ng-enter-active, .classified.ng-move.ng-move-active {
+  opacity: 1;
+}
+
+.classified.ng-leave {
+  animation: 0.4s fade_classified;
+}
+
+@keyframes fade_classified {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.navbar {
+  background-color: #f1f1f1;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.md-toolbar-tools {
+  margin-top: 50px;
+}
+
+
+#contact {
+  margin-top:100px;
+  margin-left:100px;
+  margin-right:100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
